@@ -5,17 +5,17 @@
 
 function base_url(string $path = ''): string
 {
-    return BASE_URL . ltrim($path, '/');
+    return rtrim(BASE_URL, '/') . '/' . ltrim($path, '/');
 }
 
 function asset(string $path): string
 {
-    return BASE_URL . 'assets/' . ltrim($path, '/');
+    return base_url('assets/' . ltrim($path, '/'));
 }
 
 function upload_url(string $path): string
 {
-    return BASE_URL . 'uploads/' . ltrim($path, '/');
+    return base_url('uploads/' . ltrim($path, '/'));
 }
 
 function slug(string $text): string
