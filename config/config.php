@@ -6,17 +6,7 @@ define('DB_PASS', 'IrH^BwV#lg2O');
 define('DB_NAME', 'nuroxtec_tw');
 
 // Application URLs
-// Application URLs
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) ? "https://" : "http://";
-$domainName = $_SERVER['HTTP_HOST'] ?? 'localhost';
-$scriptName = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '');
-$baseDir = dirname($scriptName);
-// If we're inside the public folder, go up one level to get the project root
-$baseDir = str_replace('/public', '', $baseDir);
-$baseDir = rtrim($baseDir, '/') . '/';
-
-define('BASE_URL', $protocol . $domainName . $baseDir);
-
+define('BASE_URL', 'https://techwizerd.nuroxtech.site/');
 define('APP_ROOT', dirname(dirname(__FILE__)));
 define('UPLOAD_PATH', APP_ROOT . '/public/uploads/');
 define('UPLOAD_URL', BASE_URL . 'uploads/');
