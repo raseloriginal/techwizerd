@@ -7,11 +7,15 @@ define('DB_NAME', 'nuroxtec_tw');
 
 // Application URLs
 // Application URLs
-if (isset($_SERVER['HTTP_HOST']) && ($_SERVER['HTTP_HOST'] === 'localhost' || str_contains($_SERVER['HTTP_HOST'], '127.0.0.1'))) {
-    define('BASE_URL', 'http://localhost/tech_wizerd/');
-} else {
-    define('BASE_URL', 'https://techwizerd.nuroxtech.site/');
-}
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) ? "https://" : "http://";
+$domainName = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$scriptName = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '');
+$baseDir = dirname($scriptName);
+// If we're inside the public folder, go up one level to get the project root
+$baseDir = str_replace('/public', '', $baseDir);
+$baseDir = rtrim($baseDir, '/') . '/';
+
+define('BASE_URL', $protocol . $domainName . $baseDir);
 
 define('APP_ROOT', dirname(dirname(__FILE__)));
 define('UPLOAD_PATH', APP_ROOT . '/public/uploads/');
