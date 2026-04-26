@@ -68,8 +68,9 @@ class ExpenseController extends Controller
             'created_by'     => $_SESSION[ADMIN_SESSION_KEY]['id'] ?? null,
         ];
 
-        if (!empty($_FILES['receipt_image']['name'])) {
-            $uploaded = upload_file($_FILES['receipt_image'], 'receipts', ['jpg', 'jpeg', 'png', 'pdf']);
+        $receiptFile = $_FILES['receipt'] ?? $_FILES['receipt_image'] ?? null;
+        if ($receiptFile && !empty($receiptFile['name'])) {
+            $uploaded = upload_file($receiptFile, 'receipts', ['jpg', 'jpeg', 'png', 'pdf']);
             if ($uploaded) $data['receipt_image'] = $uploaded;
         }
 
@@ -128,6 +129,25 @@ class ExpenseController extends Controller
         ];
 
         $expenseModel = new Expense();
+        $expense = $expenseModel->getProjectExpenseById((int)$id);
+
+        // Handle receipt deletion
+        if (!empty($_POST['delete_receipt']) && $expense['receipt_image']) {
+            delete_file($expense['receipt_image']);
+            $data['receipt_image'] = null;
+        }
+
+        // Handle new receipt upload
+        $receiptFile = $_FILES['receipt'] ?? $_FILES['receipt_image'] ?? null;
+        if ($receiptFile && !empty($receiptFile['name'])) {
+            // Delete old file if exists
+            if ($expense['receipt_image']) {
+                delete_file($expense['receipt_image']);
+            }
+            $uploaded = upload_file($receiptFile, 'receipts', ['jpg', 'jpeg', 'png', 'pdf']);
+            if ($uploaded) $data['receipt_image'] = $uploaded;
+        }
+
         $expenseModel->update('project_expenses', $data, ['id' => (int)$id]);
         set_flash('success', 'Expense updated successfully!');
         $this->redirect(BASE_URL . 'admin/expenses/project');
@@ -275,6 +295,25 @@ class ExpenseController extends Controller
         ];
 
         $expenseModel = new Expense();
+        $expense = $expenseModel->getCompanyExpenseById((int)$id);
+
+        // Handle receipt deletion
+        if (!empty($_POST['delete_receipt']) && $expense['receipt_image']) {
+            delete_file($expense['receipt_image']);
+            $data['receipt_image'] = null;
+        }
+
+        // Handle new receipt upload
+        $receiptFile = $_FILES['receipt'] ?? $_FILES['receipt_image'] ?? null;
+        if ($receiptFile && !empty($receiptFile['name'])) {
+            // Delete old file if exists
+            if ($expense['receipt_image']) {
+                delete_file($expense['receipt_image']);
+            }
+            $uploaded = upload_file($receiptFile, 'receipts', ['jpg', 'jpeg', 'png', 'pdf']);
+            if ($uploaded) $data['receipt_image'] = $uploaded;
+        }
+
         $expenseModel->update('company_expenses', $data, ['id' => (int)$id]);
         set_flash('success', 'Expense updated successfully!');
         $this->redirect(BASE_URL . 'admin/expenses/company');

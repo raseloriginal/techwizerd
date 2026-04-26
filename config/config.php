@@ -6,7 +6,13 @@ define('DB_PASS', 'IrH^BwV#lg2O');
 define('DB_NAME', 'nuroxtec_tw');
 
 // Application URLs
-define('BASE_URL', 'https://techwizerd.nuroxtech.site/');
+// Application URLs
+if (isset($_SERVER['HTTP_HOST']) && ($_SERVER['HTTP_HOST'] === 'localhost' || str_contains($_SERVER['HTTP_HOST'], '127.0.0.1'))) {
+    define('BASE_URL', 'http://localhost/tech_wizerd/');
+} else {
+    define('BASE_URL', 'https://techwizerd.nuroxtech.site/');
+}
+
 define('APP_ROOT', dirname(dirname(__FILE__)));
 define('UPLOAD_PATH', APP_ROOT . '/public/uploads/');
 define('UPLOAD_URL', BASE_URL . 'uploads/');

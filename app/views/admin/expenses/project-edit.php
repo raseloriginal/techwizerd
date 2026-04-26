@@ -92,9 +92,9 @@
     <div class="form-group mb-8">
         <label class="form-label mb-2">Receipt / Invoice Document</label>
         
-        <?php if ($expense['receipt_path']): ?>
+        <?php if ($expense['receipt_image']): ?>
             <div class="mb-3 flex items-center gap-4 bg-gray-50 p-3 rounded border border-gray-200">
-                <a href="<?= upload_url($expense['receipt_path']) ?>" target="_blank" class="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold text-sm">
+                <a href="<?= upload_url($expense['receipt_image']) ?>" target="_blank" class="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold text-sm">
                     <i data-lucide="file-text" class="w-5 h-5"></i> View Current Receipt
                 </a>
                 <label class="flex items-center gap-2 text-red-600 hover:text-red-800 font-semibold text-sm cursor-pointer ml-auto">
