@@ -84,6 +84,42 @@
     </div>
 </section>
 
+<!-- Project Gallery -->
+<section class="py-24 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16 flex flex-col items-center">
+            <h2 class="section-title">Our <span>Gallery</span></h2>
+            <div class="section-divider"></div>
+            <p class="section-subtitle">A visual showcase of our technical expertise and infrastructure projects across Bangladesh.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            <?php 
+            $gallery_images = ['14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg', '21.jpg', '22.jpg', '23.jpg', '24.jpg', '25.jpg', '26.jpg', '27.jpg', '28.jpg', '29.jpg'];
+            foreach ($gallery_images as $img): 
+            ?>
+                <div class="gallery-item group">
+                    <img src="<?= base_url('images/' . $img) ?>" alt="Tech Wizard Project" loading="lazy">
+                    <div class="gallery-overlay">
+                        <div class="text-white">
+                            <i data-lucide="maximize-2" class="w-6 h-6 mb-2"></i>
+                            <p class="text-xs font-bold uppercase tracking-widest">View Project</p>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="lightbox-modal">
+    <div class="lightbox-content">
+        <span class="lightbox-close">&times;</span>
+        <img src="" alt="Gallery Image" class="lightbox-img">
+    </div>
+</div>
+
 <!-- Featured Projects -->
 <section class="py-24 bg-gray-50">
     <div class="container mx-auto px-4">

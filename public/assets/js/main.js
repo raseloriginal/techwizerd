@@ -89,6 +89,37 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }, { threshold: 0.5 });
 
-        counters.forEach(counter => counterObserver.observe(counter));
+    // Lightbox functionality
+    const lightbox = document.getElementById('lightbox-modal');
+    const lightboxImg = lightbox?.querySelector('.lightbox-img');
+    const lightboxClose = lightbox?.querySelector('.lightbox-close');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    if (lightbox && lightboxImg && galleryItems.length > 0) {
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const imgSrc = item.querySelector('img').src;
+                lightboxImg.src = imgSrc;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            });
+        });
+
+        const closeLightbox = () => {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        lightboxClose?.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
     }
 });
