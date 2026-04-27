@@ -179,7 +179,7 @@ class ProjectController extends Controller
     {
         $this->requireLogin();
         $projectModel = new Project();
-        $projectModel->update('projects', ['is_active' => 0], ['id' => (int)$id]);
+        $projectModel->update('projects', ['is_deleted' => 1], ['id' => (int)$id]);
         set_flash('success', 'Project deleted successfully!');
         $this->redirect(BASE_URL . 'admin/projects');
     }

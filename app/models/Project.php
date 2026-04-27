@@ -1,10 +1,18 @@
 <?php
 class Project extends Model
 {
+    public function findById(string $table, int $id): ?array
+    {
+        if ($table === 'projects') {
+            return $this->findOne($table, ['id' => $id, 'is_deleted' => 0]);
+        }
+        return parent::findById($table, $id);
+    }
+
     public function getAllWithClient(array $filters = [], int $limit = 0, int $offset = 0): array
     {
         $params = [];
-        $where = ['p.is_active = 1'];
+        $where = ['p.is_deleted = 0', 'p.is_active = 1'];
 
         if (!empty($filters['type'])) {
             $where[] = 'p.project_type = ?';
@@ -37,7 +45,7 @@ class Project extends Model
         $sql = "SELECT p.*, c.name AS client_name 
                 FROM projects p 
                 LEFT JOIN clients c ON p.client_id = c.id 
-                WHERE p.is_featured = 1 AND p.is_active = 1 
+                WHERE p.is_featured = 1 AND p.is_active = 1 AND p.is_deleted = 0 
                 ORDER BY p.created_at DESC 
                 LIMIT ?";
         return $this->rawFetchAll($sql, [$limit]);
@@ -48,7 +56,7 @@ class Project extends Model
         $sql = "SELECT p.*, c.name AS client_name 
                 FROM projects p 
                 LEFT JOIN clients c ON p.client_id = c.id 
-                WHERE p.slug = ? AND p.is_active = 1 
+                WHERE p.slug = ? AND p.is_active = 1 AND p.is_deleted = 0 
                 LIMIT 1";
         return $this->rawFetchOne($sql, [$slug]);
     }
@@ -56,7 +64,7 @@ class Project extends Model
     public function getAdminList(array $filters = [], int $limit = 15, int $offset = 0): array
     {
         $params = [];
-        $where = ['1=1'];
+        $where = ['p.is_deleted = 0'];
 
         if (!empty($filters['type'])) {
             $where[] = 'p.project_type = ?';
@@ -85,7 +93,7 @@ class Project extends Model
     public function countFiltered(array $filters = []): int
     {
         $params = [];
-        $where  = ['1=1'];
+        $where  = ['is_deleted = 0'];
 
         if (!empty($filters['type'])) {
             $where[] = 'project_type = ?';
@@ -138,7 +146,7 @@ class Project extends Model
         $sql = "SELECT p.*, c.name AS client_name 
                 FROM projects p 
                 LEFT JOIN clients c ON p.client_id = c.id 
-                WHERE p.is_active = 1 AND p.project_type = ? AND p.id != ? 
+                WHERE p.is_active = 1 AND p.is_deleted = 0 AND p.project_type = ? AND p.id != ? 
                 LIMIT ?";
         return $this->rawFetchAll($sql, [$type, $projectId, $limit]);
     }
@@ -155,7 +163,7 @@ class Project extends Model
 
     public function getStatsByType(): array
     {
-        $sql = "SELECT project_type, COUNT(*) AS cnt FROM projects WHERE is_active = 1 GROUP BY project_type";
+        $sql = "SELECT project_type, COUNT(*) AS cnt FROM projects WHERE is_active = 1 AND is_deleted = 0 GROUP BY project_type";
         return $this->rawFetchAll($sql);
     }
 }
