@@ -6,7 +6,7 @@
     <title><?= SITE_NAME ?> — <?= htmlspecialchars($title ?? 'Keep Your World Connected') ?></title>
     
     <!-- Custom CSS (base styles first) -->
-    <link rel="stylesheet" href="<?= asset('css/custom.css') ?>">
+    <link rel="stylesheet" href="<?= asset('css/custom.css?v=' . time()) ?>">
 
     <!-- Tailwind CSS (CDN utilities override/extend base) -->
     <script src="https://cdn.tailwindcss.com"></script>

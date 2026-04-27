@@ -6,7 +6,7 @@
     <title><?= SITE_NAME ?> — Admin Panel</title>
     
     <!-- Custom CSS (loads first as base) -->
-    <link rel="stylesheet" href="<?= asset('css/custom.css') ?>">
+    <link rel="stylesheet" href="<?= asset('css/custom.css?v=' . time()) ?>">
     
     <!-- Tailwind CSS (CDN - extends base styles with utilities) -->
     <script src="https://cdn.tailwindcss.com"></script>
