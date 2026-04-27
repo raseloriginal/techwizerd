@@ -1,4 +1,5 @@
 <?php $title = 'Project Detail: ' . h($project['title']); ?>
+    <script src="https://cdn.tailwindcss.com"></script>
 
 <div class="flex justify-between items-center mb-6">
     <div class="flex items-center gap-2">
