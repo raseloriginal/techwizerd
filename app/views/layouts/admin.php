@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="<?= asset('css/custom.css') ?>">
     
     <!-- Tailwind CSS (CDN - extends base styles with utilities) -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-      // Configure Tailwind with brand colors before it loads
-      window.tailwind = { config: {
+      // Configure Tailwind with brand colors
+      tailwind.config = {
         theme: {
           extend: {
             colors: {
@@ -19,9 +20,8 @@
             }
           }
         }
-      }}
+      }
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

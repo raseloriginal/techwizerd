@@ -4,10 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - Tech Wizard</title>
+    <link rel="stylesheet" href="<?= asset('css/custom.css') ?>">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              orange: { 50:'#FFF7F0',100:'#FFF0E0',200:'#FFD9B5',300:'#FFBE80',400:'#FFA04D',500:'#F47920',600:'#D96B12',700:'#B55A0A',800:'#91470A',900:'#6E370A' }
+            }
+          }
+        }
+      }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="<?= asset('css/custom.css') ?>">
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 

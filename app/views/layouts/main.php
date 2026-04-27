@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="<?= asset('css/custom.css') ?>">
 
     <!-- Tailwind CSS (CDN utilities override/extend base) -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-      window.tailwind = { config: {
+      tailwind.config = {
         theme: {
           extend: {
             colors: {
@@ -22,9 +23,8 @@
             }
           }
         }
-      }}
+      }
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
