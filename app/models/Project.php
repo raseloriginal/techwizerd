@@ -154,7 +154,7 @@ class Project extends Model
     public function getExpenseSummary(int $projectId): array
     {
         $sql = "SELECT 
-                    SUM(amount) AS total_expenses,
+                    COALESCE(SUM(amount), 0) AS total_expenses,
                     COUNT(*) AS total_count 
                 FROM project_expenses 
                 WHERE project_id = ?";

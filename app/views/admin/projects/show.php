@@ -1,5 +1,4 @@
 <?php $title = 'Project Detail: ' . h($project['title']); ?>
-    <script src="https://cdn.tailwindcss.com"></script>
 
 <div class="flex justify-between items-center mb-6">
     <div class="flex items-center gap-2">
@@ -86,18 +85,18 @@
                 </div>
                 <div class="flex justify-between border-b border-gray-100 pb-2">
                     <span class="text-gray-500">Total Expenses:</span>
-                    <span class="font-bold text-red-600 text-lg">- <?= format_currency($expSummary['total_expenses']) ?></span>
+                    <span class="font-bold text-red-600 text-lg">- <?= format_currency((float)$expSummary['total_expenses']) ?></span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-gray-500 font-semibold">Remaining / Profit:</span>
-                    <?php $remaining = $project['contract_value'] - $expSummary['total_expenses']; ?>
+                    <?php $remaining = $project['contract_value'] - (float)$expSummary['total_expenses']; ?>
                     <span class="font-bold text-xl <?= $remaining < 0 ? 'text-red-600' : 'text-green-600' ?>">
                         <?= format_currency($remaining) ?>
                     </span>
                 </div>
                 
                 <?php 
-                $percent = $project['contract_value'] > 0 ? ($expSummary['total_expenses'] / $project['contract_value']) * 100 : 0;
+                $percent = $project['contract_value'] > 0 ? ((float)$expSummary['total_expenses'] / $project['contract_value']) * 100 : 0;
                 $pClass = $percent > 90 ? 'bg-danger' : ($percent > 75 ? 'bg-orange-500' : 'bg-success');
                 ?>
                 <div class="pt-2">
