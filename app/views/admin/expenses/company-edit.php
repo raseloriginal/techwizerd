@@ -100,7 +100,7 @@
     </div>
 
     <div class="flex justify-end gap-4">
-        <button type="submit" class="btn-primary bg-blue-600 hover:bg-blue-700 flex items-center gap-2">
+        <button type="submit" class="btn-secondary flex items-center gap-2">
             <i data-lucide="save" class="w-4 h-4"></i> Update Expense
         </button>
     </div>

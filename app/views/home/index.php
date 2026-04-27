@@ -69,15 +69,27 @@
     </div>
 </section>
 
-<!-- Clients Section -->
+<!-- Clients / Trusted By Section -->
 <section class="py-20 bg-white border-y border-gray-100 overflow-hidden">
     <div class="container mx-auto px-4 text-center">
-        <h3 class="text-2xl font-['Barlow_Condensed'] font-bold text-gray-400 uppercase tracking-widest mb-10">Trusted By Industry Leaders</h3>
-        
-        <div class="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-60 hover:opacity-100 transition-opacity duration-500">
+        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Our Partners</p>
+        <h3 class="text-3xl font-['Barlow_Condensed'] font-bold text-gray-800 mb-2">Trusted By <span class="text-orange-500">Industry Leaders</span></h3>
+        <p class="text-gray-400 text-sm mb-10">We are proud to work alongside Bangladesh's most trusted telecommunications and infrastructure companies.</p>
+
+        <div class="flex flex-wrap justify-center items-center gap-8 md:gap-14">
             <?php foreach ($clients as $client): ?>
-                <div class="text-xl font-bold text-gray-400 hover:text-gray-800 transition-colors cursor-default filter grayscale hover:grayscale-0">
-                    <?= h($client['name']) ?>
+                <div class="client-logo-card group">
+                    <?php if (!empty($client['logo'])): ?>
+                        <img
+                            src="<?= upload_url($client['logo']) ?>"
+                            alt="<?= h($client['name']) ?>"
+                            class="client-logo-img"
+                            loading="lazy"
+                        >
+                    <?php endif; ?>
+                    <span class="client-logo-fallback<?= !empty($client['logo']) ? ' text-xs mt-1 opacity-70' : '' ?>">
+                        <?= h($client['name']) ?>
+                    </span>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -94,16 +106,20 @@
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            <?php 
-            $gallery_images = ['14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg', '21.jpg', '22.jpg', '23.jpg', '24.jpg', '25.jpg', '26.jpg', '27.jpg', '28.jpg', '29.jpg'];
-            foreach ($gallery_images as $img): 
+            <?php
+            // Build array from all available gallery images
+            $gallery_images = [];
+            for ($i = 14; $i <= 49; $i++) {
+                $gallery_images[] = $i . '.jpg';
+            }
+            foreach ($gallery_images as $img):
             ?>
                 <div class="gallery-item group">
-                    <img src="<?= base_url('images/' . $img) ?>" alt="Tech Wizard Project" loading="lazy">
+                    <img src="<?= base_url('images/' . $img) ?>" alt="Tech Wizard Project <?= pathinfo($img, PATHINFO_FILENAME) ?>" loading="lazy">
                     <div class="gallery-overlay">
                         <div class="text-white">
-                            <i data-lucide="maximize-2" class="w-6 h-6 mb-2"></i>
-                            <p class="text-xs font-bold uppercase tracking-widest">View Project</p>
+                            <i data-lucide="maximize-2" class="w-6 h-6 mb-1"></i>
+                            <p class="text-xs font-bold uppercase tracking-widest">View</p>
                         </div>
                     </div>
                 </div>
@@ -113,10 +129,10 @@
 </section>
 
 <!-- Lightbox Modal -->
-<div id="lightbox-modal">
+<div id="lightbox-modal" role="dialog" aria-modal="true" aria-label="Image viewer">
     <div class="lightbox-content">
-        <span class="lightbox-close">&times;</span>
-        <img src="" alt="Gallery Image" class="lightbox-img">
+        <span class="lightbox-close" title="Close (Esc)">&times;</span>
+        <img src="" alt="" class="lightbox-img">
     </div>
 </div>
 

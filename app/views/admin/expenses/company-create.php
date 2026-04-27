@@ -87,7 +87,7 @@
 
     <div class="flex justify-end gap-4">
         <a href="<?= base_url('admin/expenses/company') ?>" class="px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-semibold hover:bg-gray-50">Cancel</a>
-        <button type="submit" class="btn-primary bg-blue-600 hover:bg-blue-700 flex items-center gap-2">
+        <button type="submit" class="btn-secondary flex items-center gap-2">
             <i data-lucide="save" class="w-4 h-4"></i> Save Expense
         </button>
     </div>

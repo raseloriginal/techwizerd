@@ -5,7 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= SITE_NAME ?> — <?= htmlspecialchars($title ?? 'Keep Your World Connected') ?></title>
     
-    <!-- Tailwind CSS -->
+    <!-- Custom CSS (base styles first) -->
+    <link rel="stylesheet" href="<?= asset('css/custom.css') ?>">
+
+    <!-- Tailwind CSS (CDN utilities override/extend base) -->
+    <script>
+      window.tailwind = { config: {
+        theme: {
+          extend: {
+            colors: {
+              orange: { 50:'#FFF7F0',100:'#FFF0E0',200:'#FFD9B5',300:'#FFBE80',400:'#FFA04D',500:'#F47920',600:'#D96B12',700:'#B55A0A',800:'#91470A',900:'#6E370A' }
+            },
+            fontFamily: {
+              barlow: ['Barlow Condensed', 'sans-serif'],
+              nunito: ['Nunito Sans', 'sans-serif']
+            }
+          }
+        }
+      }}
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts -->
@@ -15,9 +33,6 @@
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="<?= asset('css/custom.css') ?>">
 </head>
 <body class="antialiased">
 

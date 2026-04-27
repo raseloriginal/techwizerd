@@ -5,8 +5,16 @@ define('DB_USER', 'nuroxtec_tw');
 define('DB_PASS', 'IrH^BwV#lg2O');
 define('DB_NAME', 'nuroxtec_tw');
 
+
+// define('DB_HOST', 'localhost');
+// define('DB_USER', 'root');
+// define('DB_PASS', '');
+// define('DB_NAME', 'techwizard_db');
+
 // Application URLs
 define('BASE_URL', 'https://techwizerd.nuroxtech.site/');
+// define('BASE_URL', 'http://localhost/tech_wizerd/');
+
 define('APP_ROOT', dirname(dirname(__FILE__)));
 define('UPLOAD_PATH', APP_ROOT . '/public/uploads/');
 define('UPLOAD_URL', BASE_URL . 'uploads/');

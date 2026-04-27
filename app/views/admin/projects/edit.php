@@ -6,8 +6,8 @@
         <h2 class="text-2xl font-bold text-gray-800 m-0">Edit Project</h2>
     </div>
     <div class="flex gap-2">
-        <a href="<?= base_url('admin/projects/show/' . $project['id']) ?>" class="btn-primary bg-blue-600 hover:bg-blue-700">
-            <i data-lucide="eye" class="w-4 h-4 inline mr-1"></i> View Detail
+        <a href="<?= base_url('admin/projects/show/' . $project['id']) ?>" class="btn-secondary flex items-center gap-2 text-sm">
+            <i data-lucide="eye" class="w-4 h-4"></i> View Detail
         </a>
     </div>
 </div>

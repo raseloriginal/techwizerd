@@ -162,18 +162,19 @@ function h(string $str): string
 
 function status_badge(string $status): string
 {
-    $classes = [
-        'pending'   => 'badge badge-pending',
-        'ongoing'   => 'badge badge-ongoing',
-        'completed' => 'badge badge-completed',
-        'on_hold'   => 'badge badge-warning',
-        'cancelled' => 'badge badge-cancelled',
-        'approved'  => 'badge badge-completed',
-        'rejected'  => 'badge badge-cancelled',
+    $map = [
+        'pending'   => ['class' => 'badge badge-pending',   'label' => 'Pending'],
+        'ongoing'   => ['class' => 'badge badge-ongoing',   'label' => 'Ongoing'],
+        'completed' => ['class' => 'badge badge-completed', 'label' => 'Completed'],
+        'on_hold'   => ['class' => 'badge badge-on_hold',   'label' => 'On Hold'],
+        'cancelled' => ['class' => 'badge badge-cancelled', 'label' => 'Cancelled'],
+        'approved'  => ['class' => 'badge badge-approved',  'label' => 'Approved'],
+        'rejected'  => ['class' => 'badge badge-rejected',  'label' => 'Rejected'],
+        'active'    => ['class' => 'badge badge-ongoing',   'label' => 'Active'],
+        'inactive'  => ['class' => 'badge badge-cancelled', 'label' => 'Inactive'],
     ];
-    $class = $classes[$status] ?? 'badge';
-    $label = ucwords(str_replace('_', ' ', $status));
-    return '<span class="' . $class . '">' . $label . '</span>';
+    $entry = $map[$status] ?? ['class' => 'badge badge-pending', 'label' => ucwords(str_replace('_', ' ', $status))];
+    return '<span class="' . $entry['class'] . '">' . $entry['label'] . '</span>';
 }
 
 function paginate(int $total, int $perPage, int $currentPage): array

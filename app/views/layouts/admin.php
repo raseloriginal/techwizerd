@@ -5,7 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= SITE_NAME ?> — Admin Panel</title>
     
-    <!-- Tailwind CSS -->
+    <!-- Custom CSS (loads first as base) -->
+    <link rel="stylesheet" href="<?= asset('css/custom.css') ?>">
+    
+    <!-- Tailwind CSS (CDN - extends base styles with utilities) -->
+    <script>
+      // Configure Tailwind with brand colors before it loads
+      window.tailwind = { config: {
+        theme: {
+          extend: {
+            colors: {
+              orange: { 50:'#FFF7F0',100:'#FFF0E0',200:'#FFD9B5',300:'#FFBE80',400:'#FFA04D',500:'#F47920',600:'#D96B12',700:'#B55A0A',800:'#91470A',900:'#6E370A' }
+            }
+          }
+        }
+      }}
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts -->
@@ -18,9 +33,6 @@
     
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="<?= asset('css/custom.css') ?>">
 </head>
 <body class="antialiased bg-gray-50 text-gray-800">
 

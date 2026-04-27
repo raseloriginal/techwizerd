@@ -1,122 +1,125 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Mobile navigation toggle
+document.addEventListener('DOMContentLoaded', function () {
+
+    // ── Mobile navigation toggle ──────────────────────────────────────────────
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    
+    const mobileMenu    = document.getElementById('mobile-menu');
+
     if (mobileMenuBtn && mobileMenu) {
         mobileMenuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
     }
 
-    // Admin sidebar toggle
+    // ── Admin sidebar toggle ──────────────────────────────────────────────────
     const sidebarToggle = document.getElementById('sidebar-toggle');
-    const adminSidebar = document.querySelector('.admin-sidebar');
-    
+    const adminSidebar  = document.querySelector('.admin-sidebar');
+
     if (sidebarToggle && adminSidebar) {
         sidebarToggle.addEventListener('click', () => {
             adminSidebar.classList.toggle('show');
         });
     }
 
-    // Flash message auto-dismiss
-    const alerts = document.querySelectorAll('.alert');
-    alerts.forEach(alert => {
+    // ── Flash message auto-dismiss (5 s) ─────────────────────────────────────
+    document.querySelectorAll('.alert').forEach(alert => {
         setTimeout(() => {
-            alert.style.opacity = '0';
             alert.style.transition = 'opacity 0.5s ease';
+            alert.style.opacity    = '0';
             setTimeout(() => alert.remove(), 500);
         }, 5000);
     });
 
-    // File upload preview
-    const imageInputs = document.querySelectorAll('input[type="file"][accept*="image"]');
-    imageInputs.forEach(input => {
-        input.addEventListener('change', function() {
+    // ── File upload preview (requires data-preview="<imgId>" on the input) ───
+    document.querySelectorAll('input[type="file"][data-preview]').forEach(input => {
+        input.addEventListener('change', function () {
             const file = this.files[0];
-            if (file) {
-                const previewId = this.dataset.preview;
-                if (previewId) {
-                    const previewEl = document.getElementById(previewId);
-                    if (previewEl) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            previewEl.src = e.target.result;
-                            previewEl.classList.remove('hidden');
-                        }
-                        reader.readAsDataURL(file);
-                    }
-                }
-            }
+            if (!file) return;
+            const previewEl = document.getElementById(this.dataset.preview);
+            if (!previewEl) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                previewEl.src = e.target.result;
+                previewEl.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
         });
     });
 
-    // Confirm delete dialogs
-    const deleteForms = document.querySelectorAll('form[data-confirm]');
-    deleteForms.forEach(form => {
-        form.addEventListener('submit', function(e) {
-            const message = this.dataset.confirm || 'Are you sure you want to delete this item?';
-            if (!confirm(message)) {
-                e.preventDefault();
-            }
+    // ── Confirm delete dialogs ────────────────────────────────────────────────
+    document.querySelectorAll('form[data-confirm]').forEach(form => {
+        form.addEventListener('submit', function (e) {
+            const msg = this.dataset.confirm || 'Are you sure you want to delete this item?';
+            if (!confirm(msg)) e.preventDefault();
         });
     });
 
-    // Counter animation (IntersectionObserver)
+    // ── Counter animation (IntersectionObserver) ──────────────────────────────
     const counters = document.querySelectorAll('.stat-number');
     if (counters.length > 0) {
         const counterObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const target = entry.target;
-                    const finalValue = parseInt(target.dataset.target, 10);
-                    const duration = 2000; // ms
-                    const step = Math.max(1, Math.floor(finalValue / (duration / 16)));
-                    let current = 0;
-                    
-                    const updateCounter = () => {
-                        current += step;
-                        if (current < finalValue) {
-                            target.innerText = current + '+';
-                            requestAnimationFrame(updateCounter);
-                        } else {
-                            target.innerText = finalValue + '+';
-                        }
-                    };
-                    updateCounter();
-                    observer.unobserve(target);
-                }
+                if (!entry.isIntersecting) return;
+                const el         = entry.target;
+                const finalValue = parseInt(el.dataset.target, 10) || 0;
+                const duration   = 2000;
+                const step       = Math.max(1, Math.floor(finalValue / (duration / 16)));
+                let current      = 0;
+
+                const tick = () => {
+                    current += step;
+                    if (current < finalValue) {
+                        el.textContent = current + '+';
+                        requestAnimationFrame(tick);
+                    } else {
+                        el.textContent = finalValue + '+';
+                    }
+                };
+                tick();
+                observer.unobserve(el);
             });
         }, { threshold: 0.5 });
 
-    // Lightbox functionality
-    const lightbox = document.getElementById('lightbox-modal');
-    const lightboxImg = lightbox?.querySelector('.lightbox-img');
-    const lightboxClose = lightbox?.querySelector('.lightbox-close');
-    const galleryItems = document.querySelectorAll('.gallery-item');
+        counters.forEach(c => counterObserver.observe(c));
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+    // NOTE: Lightbox MUST be outside the counter if-block above.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    // ── Gallery lightbox ──────────────────────────────────────────────────────
+    const lightbox      = document.getElementById('lightbox-modal');
+    const lightboxImg   = lightbox ? lightbox.querySelector('.lightbox-img')   : null;
+    const lightboxClose = lightbox ? lightbox.querySelector('.lightbox-close') : null;
+    const galleryItems  = document.querySelectorAll('.gallery-item');
 
     if (lightbox && lightboxImg && galleryItems.length > 0) {
+
         galleryItems.forEach(item => {
             item.addEventListener('click', () => {
-                const imgSrc = item.querySelector('img').src;
-                lightboxImg.src = imgSrc;
+                const img = item.querySelector('img');
+                if (img) {
+                    lightboxImg.src = img.src;
+                    lightboxImg.alt = img.alt || '';
+                }
                 lightbox.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent scrolling
+                document.body.style.overflow = 'hidden';
             });
         });
 
         const closeLightbox = () => {
             lightbox.classList.remove('active');
+            lightboxImg.src = '';   // clear src so alt text never flashes
             document.body.style.overflow = '';
         };
 
-        lightboxClose?.addEventListener('click', closeLightbox);
-        lightbox.addEventListener('click', (e) => {
+        if (lightboxClose) {
+            lightboxClose.addEventListener('click', closeLightbox);
+        }
+
+        lightbox.addEventListener('click', e => {
             if (e.target === lightbox) closeLightbox();
         });
 
-        // Close on Escape key
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener('keydown', e => {
             if (e.key === 'Escape' && lightbox.classList.contains('active')) {
                 closeLightbox();
             }
