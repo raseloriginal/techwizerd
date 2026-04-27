@@ -85,16 +85,32 @@ function upload_file(array $file, string $folder, array $allowed = ['jpg', 'jpeg
     if (!in_array($ext, $allowed)) return false;
 
     // MIME type check
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $mime  = finfo_file($finfo, $file['tmp_name']);
-    finfo_close($finfo);
+    $mime = null;
+    if (function_exists('finfo_open')) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime  = finfo_file($finfo, $file['tmp_name']);
+        finfo_close($finfo);
+    } elseif (function_exists('mime_content_type')) {
+        $mime = mime_content_type($file['tmp_name']);
+    }
 
     $allowedMimes = [
         'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg',
         'png' => 'image/png',  'gif' => 'image/gif',
         'webp' => 'image/webp','pdf' => 'application/pdf',
     ];
-    if (!isset($allowedMimes[$ext]) || $allowedMimes[$ext] !== $mime) return false;
+
+    // If we couldn't determine the mime type, but it's an image, try getimagesize
+    if (!$mime && in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+        $imgInfo = @getimagesize($file['tmp_name']);
+        if ($imgInfo) $mime = $imgInfo['mime'];
+    }
+
+    // If still no mime, and we are on a server without finfo, we'll trust the extension
+    // otherwise check it against the allowed mimes
+    if ($mime && (!isset($allowedMimes[$ext]) || $allowedMimes[$ext] !== $mime)) {
+        return false;
+    }
 
     $uploadDir = UPLOAD_PATH . $folder . '/';
     if (!is_dir($uploadDir)) {

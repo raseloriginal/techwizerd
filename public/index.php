@@ -29,11 +29,7 @@ spl_autoload_register(function($className) {
     }
 });
 
-// Error handling - FORCED ON FOR DEBUGGING
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-/*
+// Error handling
 if (APP_DEBUG) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -41,7 +37,6 @@ if (APP_DEBUG) {
 } else {
     error_reporting(0);
 }
-*/
 
 // Dispatch the request
 $router = new Router();
